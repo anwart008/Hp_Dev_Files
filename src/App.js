@@ -4,18 +4,22 @@ import { Routes, Route, BrowserRouter} from "react-router-dom";
 import { MenuStorage } from './components/MenuStorage';
 import { Header } from './Header';
 import { Cart } from './components/Cart';
+import { Provider } from 'react-redux';
+import Store from './redux/Store';
 
-function App(props) {
+function App() {
   return (
+    <Provider store = {Store}>
     <div className="App">
       <BrowserRouter>
       <Header/>
       <Routes>
           <Route exact path="/" element={<MenuStorage/>}/>
-          <Route exact path="/Cart" element={<Cart/>}/>
+          <Route path="/Cart" element={<Cart/>}/>
       </Routes>
       </BrowserRouter>
     </div>
+    </Provider>
   );
 }
 

@@ -2,33 +2,40 @@ import React, { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import foodImg from '../pexels-jonathan-borba-2983101.jpg';
 import { Link } from "react-router-dom";
+import { useDispatch} from 'react-redux'
+import { listAction, priceAction } from "../redux/Action";
 
 export const MenuStorage = () => {
 
-    const getLocalName =()=>{
-        let localList = localStorage.getItem('name');
+    // const getLocalName =()=>{
+    //     let localList = localStorage.getItem('name');
     
-        if (localList!==[]&&localList!==null){
-            return JSON.parse(localStorage.getItem('name'));
-        } else {
-            return [];
-        }
-    }
+    //     if (localList!==[]&&localList!==null){
+    //         return JSON.parse(localStorage.getItem('name'));
+    //     } else {
+    //         return [];
+    //     }
+    // }
     
-    const getLocalPrice =()=>{
-        let localList = localStorage.getItem('price');
+    // const getLocalPrice =()=>{
+    //     let localList = localStorage.getItem('price');
     
-        if (localList!==0&&localList!==null){
-            return JSON.parse(localStorage.getItem('price'));
-        } else {
-            return 0;
-        }
-    }
+    //     if (localList!==0&&localList!==null){
+    //         return JSON.parse(localStorage.getItem('price'));
+    //     } else {
+    //         return 0;
+    //     }
+    // }
 
+    // const [price, setPrice] = useState(getLocalPrice());
+    // const [list, setList] = useState(getLocalName());
+
+    const dispatch = useDispatch()
+    
     const [items, setItems] = useState([]);
 
-    const [price, setPrice] = useState(getLocalPrice());
-    const [list, setList] = useState(getLocalName());
+    const [list, setList] = useState([]);
+    const [price, setPrice] = useState(0);
     
     const Add = (elem) => {
         setList([...list, elem]);
@@ -43,12 +50,14 @@ export const MenuStorage = () => {
     }
 
     useEffect(() => {
-        localStorage.setItem("name",JSON.stringify(list))
-    }, [list]);
+        // localStorage.setItem("name",JSON.stringify(list))
+        dispatch(listAction(list))
+    }, [list,dispatch]);
 
     useEffect(() => {
-        localStorage.setItem("price",JSON.stringify(price))
-    }, [price]);
+        // localStorage.setItem("price",JSON.stringify(price))
+        dispatch(priceAction(price))
+    }, [price,dispatch]);
 
     const getMenu = async () => {
         const response = await fetch('https://run.mocky.io/v3/9d71cb03-a9f9-4d70-bae2-9d3adaa1cfe7');
